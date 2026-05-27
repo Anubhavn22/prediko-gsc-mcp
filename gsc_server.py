@@ -1667,6 +1667,10 @@ def main():
         # FASTMCP_ env vars in pydantic-settings v2 init_kwargs. Set explicitly.
         mcp.settings.host = os.environ.get("FASTMCP_HOST", "0.0.0.0")
         mcp.settings.port = int(os.environ.get("FASTMCP_PORT", "8000"))
+        # FastMCP auto-enables DNS rebinding protection when host is localhost,
+        # which blocks all non-localhost Host headers (e.g. Railway domains).
+        # Disable it for remote/cloud deployments.
+        mcp.settings.transport_security = None
         mcp.run(transport="sse")
     else:
         raise ValueError(
