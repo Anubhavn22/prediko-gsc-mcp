@@ -1663,8 +1663,10 @@ def main():
     if transport == "stdio":
         mcp.run(transport="stdio")
     elif transport in {"sse", "http"}:
-        # host and port are configured via FASTMCP_HOST / FASTMCP_PORT env vars
-        # which FastMCP's Settings class reads automatically
+        # FastMCP constructor defaults (127.0.0.1:8000) take priority over
+        # FASTMCP_ env vars in pydantic-settings v2 init_kwargs. Set explicitly.
+        mcp.settings.host = os.environ.get("FASTMCP_HOST", "0.0.0.0")
+        mcp.settings.port = int(os.environ.get("FASTMCP_PORT", "8000"))
         mcp.run(transport="sse")
     else:
         raise ValueError(
