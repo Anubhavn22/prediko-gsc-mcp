@@ -10,8 +10,8 @@ COPY gsc_server.py .
 
 # SSE transport defaults — all can be overridden via Railway env vars
 ENV MCP_TRANSPORT=sse
-ENV MCP_HOST=0.0.0.0
-ENV MCP_PORT=3001
+ENV FASTMCP_HOST=0.0.0.0
+ENV FASTMCP_PORT=3001
 ENV GSC_SKIP_OAUTH=true
 ENV GSC_DATA_STATE=all
 

@@ -1659,16 +1659,13 @@ async def reauthenticate() -> str:
 def main():
     """Entry point for the MCP server. Supports stdio (default) and SSE transports."""
     transport = os.environ.get("MCP_TRANSPORT", "stdio").lower()
-    host = os.environ.get("MCP_HOST", "127.0.0.1")
-    try:
-        port = int(os.environ.get("MCP_PORT", "3001"))
-    except ValueError:
-        raise ValueError("MCP_PORT must be an integer")
 
     if transport == "stdio":
         mcp.run(transport="stdio")
     elif transport in {"sse", "http"}:
-        mcp.run(transport="sse", host=host, port=port)
+        # host and port are configured via FASTMCP_HOST / FASTMCP_PORT env vars
+        # which FastMCP's Settings class reads automatically
+        mcp.run(transport="sse")
     else:
         raise ValueError(
             f"Unknown MCP_TRANSPORT '{transport}'. "
