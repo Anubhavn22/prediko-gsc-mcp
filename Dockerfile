@@ -8,5 +8,13 @@ RUN uv sync --no-cache --no-install-project
 # Copy application code
 COPY gsc_server.py .
 
-# Default to stdio transport; override with MCP_TRANSPORT=sse for remote/network use
+# SSE transport defaults — all can be overridden via Railway env vars
+ENV MCP_TRANSPORT=sse
+ENV MCP_HOST=0.0.0.0
+ENV MCP_PORT=3001
+ENV GSC_SKIP_OAUTH=true
+ENV GSC_DATA_STATE=all
+
+EXPOSE 3001
+
 CMD ["uv", "run", "--no-sync", "python", "gsc_server.py"]
